@@ -161,6 +161,24 @@ const API_SITES = {
         adult: true
     },
 
+    // 以下 4 个源来自 GitHub Discussion #652 的推荐清单，2026-11 实测搜索与详情（播放线路）可用，且与上面 34 个源不重复
+    hongniu: {
+        api: 'http://hongniuzy2.com/api.php/provide/vod/from/hnm3u8',
+        name: '红牛资源'
+    },
+    haohua: {
+        api: 'https://hhzyapi.com/api.php/provide/vod',
+        name: '豪华资源'
+    },
+    huya: {
+        api: 'https://www.huyaapi.com/api.php/provide/vod/',
+        name: '虎牙资源'
+    },
+    xinlang: {
+        api: 'https://api.xinlangapi.com/xinlangapi.php/provide/vod/',
+        name: '新浪资源'
+    },
+
     // 下面是资源失效率高的API源，不建议使用
     subo: {
         api: 'https://subocaiji.com/api.php/provide/vod',
