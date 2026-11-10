@@ -53,10 +53,10 @@ async function searchByAPIAndKeyWord(apiId, query) {
             api_url: apiId.startsWith('custom_') ? getCustomApiInfo(apiId.replace('custom_', ''))?.url : undefined
         }));
         
-        // 获取总页数
-        const pageCount = data.pagecount || 1;
-        // 确定需要获取的额外页数 (最多获取maxPages页)
-        const pagesToFetch = Math.min(pageCount - 1, API_CONFIG.search.maxPages - 1);
+        // ⚠️ 重要修正：不再拉取第2页及以后的分页
+        // 这批采集站的搜索接口一旦带上 pg 参数就会丢掉关键词（pg>1 直接返回全库列表），
+        // 导致搜索结果里混进大量与关键词无关的影片。第 1 页是严格按关键词过滤的，所以只取第 1 页。
+        const pagesToFetch = 0;
         
         // 如果有额外页数，获取更多页的结果
         if (pagesToFetch > 0) {
