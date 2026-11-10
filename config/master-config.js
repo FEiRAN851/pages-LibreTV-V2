@@ -5,7 +5,7 @@ const MASTER_CONFIG = {
     // 🔐 核心认证配置（只需要在这里修改）
     auth: {
         username: 'admin',                    // 用户名
-        password: 'admin123',            // 🔥 修改这里设置自定义密码
+        password: 'Li141609!',            // 🔥 修改这里设置自定义密码
         enabled: true,                        // 是否启用密码保护
         sessionDuration: 90 * 24 * 60 * 60 * 1000,  // 90天
         maxLoginAttempts: 5,                  // 最大尝试次数
