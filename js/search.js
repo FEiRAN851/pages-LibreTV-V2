@@ -58,65 +58,17 @@ async function searchByAPIAndKeyWord(apiId, query) {
         // 导致搜索结果里混进大量与关键词无关的影片。第 1 页是严格按关键词过滤的，所以只取第 1 页。
         const pagesToFetch = 0;
         
-        // 如果有额外页数，获取更多页的结果
-        if (pagesToFetch > 0) {
-            const additionalPagePromises = [];
-            
-            for (let page = 2; page <= pagesToFetch + 1; page++) {
-                // 构建分页URL
-                const pageUrl = apiBaseUrl + API_CONFIG.search.pagePath
-                    .replace('{query}', encodeURIComponent(query))
-                    .replace('{page}', page);
-                
-                // 创建获取额外页的Promise
-                const pagePromise = (async () => {
-                    try {
-                        const pageController = new AbortController();
-                        const pageTimeoutId = setTimeout(() => pageController.abort(), 15000);
-                        
-                        // 添加鉴权参数到代理URL
-                        const proxiedPageUrl = await window.ProxyAuth?.addAuthToProxyUrl ? 
-                            await window.ProxyAuth.addAuthToProxyUrl(PROXY_URL + encodeURIComponent(pageUrl)) :
-                            PROXY_URL + encodeURIComponent(pageUrl);
-                        
-                        const pageResponse = await fetch(proxiedPageUrl, {
-                            headers: API_CONFIG.search.headers,
-                            signal: pageController.signal
-                        });
-                        
-                        clearTimeout(pageTimeoutId);
-                        
-                        if (!pageResponse.ok) return [];
-                        
-                        const pageData = await pageResponse.json();
-                        
-                        if (!pageData || !pageData.list || !Array.isArray(pageData.list)) return [];
-                        
-                        // 处理当前页结果
-                        return pageData.list.map(item => ({
-                            ...item,
-                            source_name: apiName,
-                            source_code: apiId,
-                            api_url: apiId.startsWith('custom_') ? getCustomApiInfo(apiId.replace('custom_', ''))?.url : undefined
-                        }));
-                    } catch (error) {
-                        console.warn(`API ${apiId} 第${page}页搜索失败:`, error);
-                        return [];
-                    }
-                })();
-                
-                additionalPagePromises.push(pagePromise);
-            }
-            
-            // 等待所有额外页的结果
-            const additionalResults = await Promise.all(additionalPagePromises);
-            
-            // 合并所有页的结果
-            additionalResults.forEach(pageResults => {
-                if (pageResults.length > 0) {
-                    results.push(...pageResults);
-                }
+        // ⚠️ 相关性过滤：采集站的搜索是逐字模糊匹配（搜“庆余年”会连“重庆森林”“宝庆码头”一起返回），
+        // 这里只保留标题命中关键词的结果；若一条都没命中，则保留原始结果兜底（避免偏僻片名搜不到）。
+        const keywordNorm = String(query || '').replace(/\s+/g, '').toLowerCase();
+        if (keywordNorm) {
+            const matched = results.filter(item => {
+                const title = String(item.vod_name || '').replace(/\s+/g, '').toLowerCase();
+                return title.includes(keywordNorm);
             });
+            if (matched.length > 0) {
+                return matched;
+            }
         }
         
         return results;
