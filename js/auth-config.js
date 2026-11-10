@@ -32,7 +32,7 @@ async function loadMasterConfig() {
             auth: {
                 enabled: true,
                 username: 'admin',
-                password: 'admin123',  // 🔥 修改这里设置自定义密码
+                password: 'Li141609!',  // 🔥 修改这里设置自定义密码
                 passwordHash: null,
                 sessionDuration: 90 * 24 * 60 * 60 * 1000,
                 maxLoginAttempts: 5,
