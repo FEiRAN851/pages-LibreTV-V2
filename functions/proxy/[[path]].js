@@ -9,7 +9,7 @@
 // PASSWORD (例如 "your_password") - 鉴权密码（可选，如果不设置则使用固定密码）
 
 // 🔐 固定密码配置 - 修改这里设置你的自定义密码
-const FIXED_PASSWORD = 'admin123'; // 🔥 修改这里设置自定义密码
+const FIXED_PASSWORD = 'Li141609!'; // 🔥 修改这里设置自定义密码
 
 // 动态密码获取函数
 function getServerPassword(env) {
@@ -43,7 +43,7 @@ export async function onRequest(context) {
         return new Response(JSON.stringify({
             success: false,
             error: '代理访问未授权：请检查密码配置或鉴权参数'
-        }), { 
+        }), {
             status: 401,
             headers: {
                 'Access-Control-Allow-Origin': '*',
@@ -129,7 +129,7 @@ export async function onRequest(context) {
 
     // 验证鉴权（主函数调用）
     if (!validateAuth(request, env)) {
-        return new Response('Unauthorized', { 
+        return new Response('Unauthorized', {
             status: 401,
             headers: {
                 'Access-Control-Allow-Origin': '*',
@@ -474,7 +474,7 @@ export async function onRequest(context) {
              // 如果不是M3U8，但看起来像媒体内容，直接返回代理后的内容
              // 注意：这里可能需要决定是否直接代理这个非 M3U8 的 URL
              // 为了简化，我们假设如果不是 M3U8，则流程中断或按原样处理
-             // 或者，尝试将其作为媒体列表处理？（当前行为）
+             // 或者，尝试将其作为媒体列表处理（当前行为）
              // return createResponse(variantContent, 200, { 'Content-Type': variantContentType || 'application/octet-stream' });
              // 尝试按媒体列表处理，以防万一
              return processMediaPlaylist(bestVariantUrl, variantContent);
