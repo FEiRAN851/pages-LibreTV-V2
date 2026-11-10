@@ -71,6 +71,11 @@ if (typeof window !== 'undefined') {
 
 // 立即加载配置（异步）
 loadMasterConfig().then(() => {
+    // 首屏竞态修正：主配置已同步加载完成时，立即标记就绪。
+    // 否则密码哈希还在异步计算时，first-screen 检查会把「尚未就绪」误判成「未设置密码」。
+    if (window.MASTER_CONFIG && window.MASTER_CONFIG.auth && window.MASTER_CONFIG.auth.password) {
+        window.MASTER_CONFIG_READY = true;
+    }
     console.log('✅ 主配置加载完成');
 }).catch(error => {
     console.error('❌ 主配置加载失败:', error);
