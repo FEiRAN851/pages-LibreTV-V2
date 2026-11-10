@@ -160,8 +160,24 @@ const API_SITES = {
         name: '玉兔资源',
         adult: true
     },
+    // 以下 3 个为成人内容源（来自 ziyuanzu 巡检清单，2026-11 实测关键词命中且详情有 m3u8 线路），均标记 adult: true，默认不选中
+    lebo: {
+        api: 'https://lbapi9.com/api.php/provide/vod/',
+        name: '乐播资源',
+        adult: true
+    },
+    madou: {
+        api: 'https://91md.me/api.php/provide/vod/',
+        name: '麻豆资源',
+        adult: true
+    },
+    xiaoji: {
+        api: 'https://api.xiaojizy.live/provide/vod/',
+        name: '小鸡资源',
+        adult: true
+    },
 
-    // 以下 4 个源来自 GitHub Discussion #652 的推荐清单，2026-11 实测搜索与详情（播放线路）可用，且与上面 34 个源不重复
+    // 以下 4 个源来自 GitHub Discussion #652 的推荐清单，2026-11 实测搜索与详情（播放线路）可用，且与上面不重复
     hongniu: {
         api: 'http://hongniuzy2.com/api.php/provide/vod/from/hnm3u8',
         name: '红牛资源'
@@ -177,6 +193,14 @@ const API_SITES = {
     xinlang: {
         api: 'https://api.xinlangapi.com/xinlangapi.php/provide/vod/',
         name: '新浪资源'
+    },
+    piaoling: {
+        api: 'https://p2100.net/api.php/provide/vod/',
+        name: '飘零影院资源'
+    },
+    aidan: {
+        api: 'https://lovedan.net/api.php/provide/vod',
+        name: '艾旦资源'
     },
 
     // 下面是资源失效率高的API源，不建议使用
